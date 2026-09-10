@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sajjad Rahim · RF Antenna Engineer</title>
+
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Font: Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0b0d10;
+            --bg-secondary: #13161b;
+            --bg-card: #1a1e26;
+            --bg-card-hover: #232832;
+            --border-subtle: #2a303c;
+            --text-primary: #eaeef2;
+            --text-secondary: #a8b3c4;
+            --text-muted: #6f7b8c;
+            --accent-blue: #4d9aff;
+            --accent-blue-dim: #1e3a6b;
+            --accent-cyan: #6cd4ff;
+            --gradient-accent: linear-gradient(135deg, #4d9aff, #6cd4ff);
+            --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --radius-card: 16px;
+            --radius-sm: 8px;
+            --transition: 0.25s ease;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ---------- SCROLLBAR ---------- */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* ---------- UTILITY ---------- */
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            background: var(--accent-blue-dim);
+            padding: 4px 14px;
+            border-radius: 40px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(77, 154, 255, 0.15);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        .section-title span {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-sub {
+            color: var(--text-secondary);
+            max-width: 620px;
+            font-size: 1rem;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* ---------- HEADER / NAV ---------- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background: rgba(11, 13, 16, 0.75);
+            backdrop-filter: blur(14px) saturate(1.2);
+            border-bottom: 1px solid rgba(42, 48, 60, 0.4);
+            padding: 14px 0;
+            transition: background var(--transition);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-logo span {
+            font-weight: 400;
+            color: var(--text-secondary);
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            transition: color var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            padding: 140px 0 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(77, 154, 255, 0.06), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            background: rgba(108, 212, 255, 0.08);
+            border: 1px solid rgba(108, 212, 255, 0.15);
+            padding: 6px 18px 6px 14px;
+            border-radius: 40px;
+            margin-bottom: 24px;
+        }
+        .hero-badge i {
+            font-size: 0.7rem;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .hero h1 .highlight {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .hero-desc {
+            color: var(--text-secondary);
+            max-width: 580px;
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gradient-accent);
+            color: #0b0d10;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 60px;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+            font-family: var(--font-sans);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(77, 154, 255, 0.3);
+            color: #0b0d10;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            padding: 12px 30px;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: border-color var(--transition), background var(--transition);
+            font-family: var(--font-sans);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            background: rgba(77, 154, 255, 0.06);
+            color: var(--text-primary);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .hero-meta-item i {
+            color: var(--accent-blue);
+            width: 18px;
+            font-size: 1.1rem;
+        }
+        .hero-meta-item a {
+            color: var(--text-secondary);
+        }
+        .hero-meta-item a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* ---------- SECTION COMMON ---------- */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* ---------- ABOUT / SUMMARY ---------- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 20px 22px;
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition), transform var(--transition);
+        }
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ---------- CORE COMPETENCIES ---------- */
+        .competency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .competency-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 10px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: background var(--transition), border-color var(--transition), color var(--transition);
+        }
+        .competency-tag:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        /* ---------- EXPERIENCE ---------- */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 28px;
+            padding: 24px 28px;
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .timeline-item:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(77, 154, 255, 0.2);
+        }
+
+        .timeline-left .company {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        .timeline-left .period {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-top: 4px;
+            display: block;
+        }
+        .timeline-left .location {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .timeline-right .role {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .timeline-right ul {
+            list-style: none;
+            padding: 0;
+        }
+        .timeline-right ul li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .timeline-right ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+        .timeline-right .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .timeline-right .tech-tags span {
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: var(--accent-blue-dim);
+            color: var(--accent-cyan);
+            padding: 3px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(108, 212, 255, 0.1);
+            letter-spacing: 0.02em;
+        }
+
+        /* ---------- SKILLS (detailed) ---------- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+        .skill-group {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 22px 26px;
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition);
+        }
+        .skill-group:hover {
+            background: var(--bg-card-hover);
+        }
+        .skill-group h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .skill-group .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-group .skill-items span {
+            font-size: 0.8rem;
+            background: var(--bg-primary);
+            padding: 4px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            transition: border-color var(--transition), color var(--transition);
+        }
+        .skill-group .skill-items span:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        /* ---------- PROJECTS ---------- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .project-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 24px 26px;
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition), transform var(--transition), border-color var(--transition);
+        }
+        .project-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            border-color: rgba(77, 154, 255, 0.25);
+        }
+        .project-card .project-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+        .project-card .project-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-bottom: 10px;
+        }
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ---------- PATENTS & PUBLICATIONS ---------- */
+        .pub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .pub-item {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 16px 22px;
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition), border-color var(--transition);
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pub-item:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(77, 154, 255, 0.2);
+        }
+        .pub-item .pub-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 12px;
+            border-radius: 30px;
+            background: var(--accent-blue-dim);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(108, 212, 255, 0.1);
+            flex-shrink: 0;
+        }
+        .pub-item .pub-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .pub-item .pub-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .pub-item .pub-text .authors {
+            color: var(--text-muted);
+        }
+
+        /* ---------- EDUCATION ---------- */
+        .edu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .edu-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 24px 26px;
+            border: 1px solid var(--border-subtle);
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .edu-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(77, 154, 255, 0.15);
+        }
+        .edu-card .degree {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .edu-card .school {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .edu-card .year {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-top: 4px;
+        }
+
+        /* ---------- CONTACT / FOOTER ---------- */
+        .contact-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+        .contact-wrapper .section-sub {
+            max-width: 480px;
+        }
+        .contact-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: color var(--transition);
+        }
+        .contact-links a:hover {
+            color: var(--accent-cyan);
+        }
+        .contact-links a i {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .about-grid,
+            .skills-grid,
+            .project-grid,
+            .edu-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .timeline-left .period {
+                display: inline-block;
+                margin-right: 12px;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                padding: 20px 28px;
+                border-radius: var(--radius-card);
+                border: 1px solid var(--border-subtle);
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                width: 220px;
+                gap: 16px;
+                box-shadow: var(--shadow-card);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero-title {
+                font-size: 1.1rem;
+            }
+            .hero-meta {
+                gap: 16px;
+            }
+            .hero-meta-item {
+                font-size: 0.8rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stat-number {
+                font-size: 1.6rem;
+            }
+
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-actions .btn-primary,
+            .hero-actions .btn-outline {
+                width: 100%;
+                justify-content: center;
+            }
+            .timeline-item {
+                padding: 18px 16px;
+            }
+            .pub-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .competency-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">Sajjad<span>·RF</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-antenna"></i> RF Front‑End · Antenna R&D · 9+ years
+            </div>
+            <h1>
+                Sajjad <span class="highlight">Rahim</span>
+            </h1>
+            <p class="hero-title">
+                RF Antenna Engineer · Terminal RF Front‑End &amp; Antenna R&D
+            </p>
+            <p class="hero-desc">
+                Ph.D. in Electromagnetics · 9 yrs RF &amp; Antenna Engineering ·
+                <span style="color:var(--text-primary);">1 granted + 6 filed patents</span>
+            </p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn-primary">
+                    <i class="fas fa-paper-plane"></i> Get in touch
+                </a>
+                <a href="#projects" class="btn-outline">
+                    <i class="fas fa-code"></i> View Projects
+                </a>
+            </div>
+
+            <div class="hero-meta">
+                <span class="hero-meta-item">
+                    <i class="fas fa-map-pin"></i> Shanghai, China
+                </span>
+                <span class="hero-meta-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:+8618621007612">+86 186 2100 7612</a>
+                </span>
+                <span class="hero-meta-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:sajjad.rahim5@gmail.com">sajjad.rahim5@gmail.com</a>
+                </span>
+                <span class="hero-meta-item">
+                    <i class="fab fa-linkedin-in"></i>
+                    <a href="https://linkedin.com/in/sajjad-rahim-74426094" target="_blank">linkedin.com/in/sajjad‑rahim</a>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+        <div class="container">
+            <span class="section-label">About</span>
+            <h2 class="section-title">RF &amp; Antenna <span>Engineer</span></h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        RF Antenna Engineer with <strong>9 years</strong> of RF and antenna engineering spanning the full RF chain:
+                        PCB‑level RF front‑end design (EDA schematic/layout, LC matching networks, RF switches, tuners, and RF
+                        connections/routing) through antenna simulation, placement, and new‑structure development (CST, HFSS)
+                        for terminal devices at <strong>Huaqin Technology</strong> — a leading global ODM (smartphones, PADs,
+                        laptops, TWS earbuds, wearables).
+                    </p>
+                    <p>
+                        Preceded by 5 years of RF and antenna engineering on live cellular base‑station networks, including
+                        base‑station RF/antenna maintenance, field operations, and OMCR network monitoring.
+                    </p>
+                    <p>
+                        Ph.D. in Electromagnetics (Shanghai University), with <strong>1 granted</strong> and
+                        <strong>6 filed patents</strong> plus 7 peer‑reviewed publications in UWB MIMO and high‑isolation
+                        antenna design.
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">9+</div>
+                        <div class="stat-label">Years RF &amp; Antenna Engineering</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Peer‑reviewed Publications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Patents (1 Granted + 6 Filed)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.5 dB</div>
+                        <div class="stat-label">Sim‑to‑Measurement Gap Closed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CORE COMPETENCIES ===== -->
+    <section id="competencies" style="border-bottom:1px solid var(--border-subtle);">
+        <div class="container">
+            <span class="section-label">Core Competencies</span>
+            <h2 class="section-title">What I <span>Do</span></h2>
+            <div class="competency-grid">
+                <span class="competency-tag">RF Front‑End (PCB/EDA)</span>
+                <span class="competency-tag">RF Switches &amp; Tuners</span>
+                <span class="competency-tag">LC Matching Networks</span>
+                <span class="competency-tag">Antenna Design (CST, HFSS)</span>
+                <span class="competency-tag">Antenna Placement &amp; DFM</span>
+                <span class="competency-tag">UWB MIMO (2T4R)</span>
+                <span class="competency-tag">5G NR / mmWave &amp; LTE</span>
+                <span class="competency-tag">Impedance Matching &amp; VSWR</span>
+                <span class="competency-tag">MIMO Isolation &amp; Decoupling</span>
+                <span class="competency-tag">Base‑Station RF &amp; OMCR</span>
+                <span class="competency-tag">Patent &amp; IP Research</span>
+                <span class="competency-tag">CST‑Python / VBA Automation</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience">
+        <div class="container">
+            <span class="section-label">Experience</span>
+            <h2 class="section-title">Where I’ve <span>Worked</span></h2>
+            <div class="timeline">
+
+                <!-- Huaqin -->
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="company">Huaqin Technology</div>
+                        <span class="period">Sep 2022 – Present</span>
+                        <div class="location">Shanghai, China</div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="role">RF Antenna Engineer (R&D)</div>
+                        <ul>
+                            <li>End‑to‑end RF front‑end and antenna design for smartphones, PADs, laptops, TWS, wearables: PCB‑level EDA schematic/layout, RF switch/tuner selection/routing, LC matching networks, simulation (CST/HFSS), and new‑structure development.</li>
+                            <li>Developed ODB PCB material library; placed RF switches, tuners, and LC elements; configured manufacturable RF front‑end layouts.</li>
+                            <li>Closed simulation‑to‑measurement gap to <strong>0.5 dB</strong> across 5+ devices via surface‑roughness modeling and virtual VNA calibration — a 20% mid/high‑band accuracy improvement.</li>
+                            <li>Built CST‑Python &amp; VBA automation, reducing manual simulation time by 40%; implemented Isight‑CST integration for full‑model optimization.</li>
+                            <li>Designed UWB MIMO (2T4R) antennas for automotive keyless entry &amp; child‑presence detection (IEEE 802.15.4z) using metamaterial decoupling.</li>
+                            <li>Filed <strong>6 patents</strong> (2025–2026) covering wearable, smart‑ring, and automotive UWB MIMO architectures.</li>
+                        </ul>
+                        <div class="tech-tags">
+                            <span>CST</span><span>HFSS</span><span>ADS</span><span>ODB++</span><span>Python</span><span>VBA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Huawei -->
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="company">Huawei Technologies</div>
+                        <span class="period">Apr 2016 – Aug 2017</span>
+                        <div class="location">Islamabad, Pakistan</div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="role">RF &amp; Antenna Engineer – Base‑Station Networks</div>
+                        <ul>
+                            <li>RF and antenna maintenance for live base‑station networks; diagnosed antenna, feeder, and RF hardware faults, sustaining <strong>99% uptime</strong> SLA.</li>
+                            <li>Led BTS3006/3012AE‑to‑DBS3900 base‑station and antenna swap operations for 20+ sites, including RF feeder reconnection, antenna alignment, and CPRI commissioning.</li>
+                            <li>Performed RF performance analysis and antenna‑tilt/parameter tuning across LTE and GSM networks.</li>
+                        </ul>
+                        <div class="tech-tags">
+                            <span>Base‑Station RF</span><span>CPRI</span><span>LTE</span><span>GSM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CCS -->
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="company">China Com‑Service (CCS)</div>
+                        <span class="period">Jan 2010 – Dec 2013</span>
+                        <div class="location">Islamabad, Pakistan</div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="role">RF &amp; Antenna Engineer – Base‑Station Maintenance &amp; OMCR</div>
+                        <ul>
+                            <li>Installed, aligned, and maintained base‑station antennas, RF feeder cables, and RF hardware across 30+ sites.</li>
+                            <li>Monitored live network RF performance and alarms through OMCR (Operation &amp; Maintenance Center – Radio), coordinating fault escalation and field dispatch.</li>
+                            <li>Coordinated with equipment vendors on antenna/RF hardware replacement; maintained O&amp;M documentation and spare‑parts inventory.</li>
+                        </ul>
+                        <div class="tech-tags">
+                            <span>OMCR</span><span>Field Maintenance</span><span>Antenna Alignment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills">
+        <div class="container">
+            <span class="section-label">Skills</span>
+            <h2 class="section-title">Technical <span>Toolbox</span></h2>
+            <div class="skills-grid">
+                <div class="skill-group">
+                    <h4>RF Front‑End &amp; Design</h4>
+                    <div class="skill-items">
+                        <span>RF Switches</span><span>Tuners</span><span>LC Matching</span>
+                        <span>Baluns</span><span>Filters</span><span>RF Routing</span>
+                        <span>EDA (ODB++)</span><span>ADS</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Simulation &amp; Automation</h4>
+                    <div class="skill-items">
+                        <span>CST Microwave Studio</span><span>ANSYS HFSS</span>
+                        <span>Optenni Lab</span><span>Isight</span>
+                        <span>CST‑Python</span><span>VBA Scripting</span>
+                        <span>DOE</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Antenna Types</h4>
+                    <div class="skill-items">
+                        <span>FPC</span><span>Full Metal‑Frame</span><span>IFA</span>
+                        <span>Loop</span><span>PIFA</span><span>Cavity</span>
+                        <span>Patch</span><span>UWB MIMO (2T4R)</span>
+                        <span>Metamaterial Arrays</span><span>Phased Arrays</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Measurement &amp; Testing</h4>
+                    <div class="skill-items">
+                        <span>VNA</span><span>Spectrum Analyzer</span>
+                        <span>S‑Parameters</span><span>VSWR</span>
+                        <span>Radiation Pattern</span><span>Far/Near‑Field</span>
+                        <span>Anechoic Chamber</span><span>OTA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects">
+        <div class="container">
+            <span class="section-label">Projects</span>
+            <h2 class="section-title">Key <span>Projects</span></h2>
+            <div class="project-grid">
+
+                <div class="project-card">
+                    <div class="project-title">CST Simulation Refinement</div>
+                    <div class="project-meta">2023–2026 · Mobile/PAD/TWS</div>
+                    <p>1 dB (low band) / 2 dB (mid/high band) sim‑to‑measurement accuracy; reusable CST templates adopted company‑wide.</p>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Full‑Metal‑Rimmed Tablet Antenna</div>
+                    <div class="project-meta">2023–2024</div>
+                    <p>5 mm‑clearance antenna, 120 mm footprint, covering LB/MB/HB bands (698–2690 MHz).</p>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">RF Front‑End &amp; Feed Optimization for PAD</div>
+                    <div class="project-meta">2024–2025</div>
+                    <p>Optimized feed port, RF switch/tuner selection, and LC matching networks via CST parametric sweeps and EDA schematic/layout; measurement‑validated impedance/efficiency gains.</p>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">UWB 2T4R MIMO Automotive Antenna</div>
+                    <div class="project-meta">2026</div>
+                    <p>Metamaterial‑based design for keyless entry / child detection (802.15.4z) with high isolation in a compact footprint.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PATENTS ===== -->
+    <section id="patents">
+        <div class="container">
+            <span class="section-label">Patents</span>
+            <h2 class="section-title">Innovation <span>Portfolio</span></h2>
+            <div class="pub-list">
+                <div class="pub-item">
+                    <span class="pub-badge">Granted</span>
+                    <span class="pub-text"><strong>Antenna Structure and Communication Device</strong> · CN202211714477.7 · Feb 2026</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">Filed</span>
+                    <span class="pub-text"><strong>OLED Display Panel and Wearable Device</strong> · CN202610361859.8 · Apr 2026</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">Filed</span>
+                    <span class="pub-text"><strong>Inverted‑F Antenna and Wearable Device</strong> · CN202511920070.3 · Mar 2026</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">Filed</span>
+                    <span class="pub-text"><strong>Antenna and Smart Ring</strong> · CN202511952827.7 · Apr 2026</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">Filed</span>
+                    <span class="pub-text"><strong>UWB MIMO Antenna (2T4R) for Automobile Using Metamaterial Surface</strong> · Jun 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PUBLICATIONS ===== -->
+    <section id="publications">
+        <div class="container">
+            <span class="section-label">Publications</span>
+            <h2 class="section-title">Peer‑Reviewed <span>Research</span></h2>
+            <div class="pub-list">
+                <div class="pub-item">
+                    <span class="pub-badge">2022</span>
+                    <span class="pub-text"><strong>Super‑UWB MIMO antenna with high isolation</strong> · <span class="authors">Rahim S, Yang X‑X, Elobied AA, Xiao B‑Z.</span> <em>Microwave and Optical Technology Letters</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2022</span>
+                    <span class="pub-text"><strong>Super‑UWB MIMO antenna with dual‑band notched and high gain</strong> · <span class="authors">Rahim S, Elobied AA, Huang W, Yang X‑X.</span> <em>Radio Science</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2018</span>
+                    <span class="pub-text"><strong>Array synthesis for optimal microwave power transmission</strong> · <span class="authors">Zhou H‑W, Yang X‑X, Rahim S.</span> <em>IEEE Access</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2018</span>
+                    <span class="pub-text"><strong>Synthesis of sparse uniform‑amplitude concentric ring transmitting array</strong> · <span class="authors">Zhou H‑W, Yang X‑X, Rahim S.</span> <em>International Journal of Antennas and Propagation</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2019</span>
+                    <span class="pub-text"><strong>Efficient data handover in software‑defined vehicular social networks</strong> · <span class="authors">Sohail M, Wang L, Ali R, Rahim S, et al.</span> <em>IET Intelligent Transport Systems</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2025</span>
+                    <span class="pub-text"><strong>Quad‑band antenna for smartwatches with GPS, LTE, and Wi‑Fi support</strong> · <span class="authors">Khan SU, Majeed MS, Ullah S, Rahim S, et al.</span> <em>Microwave and Optical Technology Letters</em>.</span>
+                </div>
+                <div class="pub-item">
+                    <span class="pub-badge">2016</span>
+                    <span class="pub-text"><strong>Dual‑band, frequency‑reconfigurable patch antenna for GSM and Wi‑Fi</strong> · <span class="authors">Shoukat S, et al. (incl. Rahim S).</span> <em>IEEE ICE Cube</em>.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section id="education">
+        <div class="container">
+            <span class="section-label">Education</span>
+            <h2 class="section-title">Academic <span>Background</span></h2>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div class="degree">Ph.D., Electromagnetics &amp; Microwave Technology</div>
+                    <div class="school">Shanghai University, China</div>
+                    <div class="year">Sep 2017 – Jun 2023 · Chinese Government Scholarship</div>
+                    <div style="margin-top:8px; font-size:0.9rem; color:var(--text-secondary);">
+                        Dissertation: UWB MIMO antenna design and high‑isolation topologies. <br />7 peer‑reviewed journal articles.
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <div class="degree">M.Sc., Telecommunication Engineering</div>
+                    <div class="school">UET Peshawar, Pakistan</div>
+                    <div class="year">Jan 2014 – Apr 2016</div>
+                </div>
+                <div class="edu-card" style="grid-column: 1 / -1;">
+                    <div class="degree">B.Sc., Telecommunication Engineering</div>
+                    <div class="school">UET Peshawar, Pakistan</div>
+                    <div class="year">Sep 2005 – Sep 2009</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" style="border-bottom: none;">
+        <div class="container">
+            <div class="contact-wrapper">
+                <span class="section-label">Contact</span>
+                <h2 class="section-title">Let’s <span>Connect</span></h2>
+                <p class="section-sub">
+                    Open to research collaborations, RF/antenna engineering roles, and patent consulting.
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:sajjad.rahim5@gmail.com"><i class="fas fa-envelope"></i> sajjad.rahim5@gmail.com</a>
+                    <a href="tel:+8618621007612"><i class="fas fa-phone-alt"></i> +86 186 2100 7612</a>
+                    <a href="https://linkedin.com/in/sajjad-rahim-74426094" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                    <a href="#"><i class="fas fa-map-pin"></i> Shanghai, China</a>
+                </div>
+
+                <div class="footer-bottom">
+                    <span>&copy; 2026 Sajjad Rahim. Built with <i class="fas fa-heart" style="color:var(--accent-blue);"></i></span>
+                    <span style="font-family:var(--font-mono); font-size:0.8rem;">RF · Antenna · Electromagnetics</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== JS ===== -->
+    <script>
+        // Hamburger toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close nav on link click (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // Smooth highlight for nav links on scroll (optional)
+        const sections = document.querySelectorAll('section[id]');
+        const navAnchors = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const top = section.offsetTop - 120;
+                if (window.scrollY >= top) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navAnchors.forEach(a => {
+                a.style.color = a.getAttribute('href') === '#' + current ? '#eaeef2' : '';
+                a.style.fontWeight = a.getAttribute('href') === '#' + current ? '600' : '500';
+            });
+        });
+    </script>
+
+</body>
+</html>
